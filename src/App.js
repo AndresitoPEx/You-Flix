@@ -14,6 +14,8 @@ import HeaderHome from './components/HeaderHome';
 import Section from './components/Section';
 import Footer from './components/footer';
 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 
 function App() {
@@ -114,31 +116,38 @@ function App() {
 
   return (
     <div className="App">
+      <Router>
+        <Header cambiarEstado={cambiarEstado} />
+        <Routes>
 
-      <Header cambiarEstado={cambiarEstado} />
+          <Route path="/" element={
+            <>
+              <Home />
+              <HeaderHome />
+              {categorias.map((categoria, index) => (
+                <Section
+                  datos={categoria}
+                  key={categoria.nombre}
+                  nombre={categoria.nombre}
+                  color={categoria.colorPrimario}
+                  videos={videos.filter(
+                    (video) => video.categoria === categoria.nombre
+                  )}
+                  eliminarVideo={eliminarVideo}
+                />
+              ))}
+            </>
+          } />
 
-      {
-        mostrarForm ? <FormularioNuevoVideo
-          categorias={categorias.map((categoria) => categoria.nombre)}
-          registrarVideo={registrarVideo}
-        /> : null
-      }
+          <Route path="/nuevo-video" element={<FormularioNuevoVideo
+            categorias={categorias.map((categoria) => categoria.nombre)}
+            registrarVideo={registrarVideo}
+          />} />
 
-      <Home />
-      <HeaderHome />
-      {
-        categorias.map((categoria, index) => <Section
-          datos={categoria}
-          key={categoria.nombre}
-          nombre={categoria.nombre}
-          color={categoria.colorPrimario}
-          videos={videos.filter((video) => video.categoria === categoria.nombre)}
-          eliminarVideo={eliminarVideo}
-        />
-        )
-      }
 
-      <Footer />
+        </Routes>
+        <Footer />
+      </Router>
     </div>
   );
 }

@@ -4,6 +4,10 @@ import CampoTexto from '../CampoTexto'
 import Categorias from '../Categorias'
 import BotonGuardar from '../BotonGuardar'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const FormularioNuevoVideo = (props) => {
 
@@ -16,6 +20,9 @@ const FormularioNuevoVideo = (props) => {
 
     const {registrarVideo} = props;
 
+    const navigate = useNavigate();
+
+
 
     const enviarForm = (e) => {
         e.preventDefault()
@@ -27,6 +34,7 @@ const FormularioNuevoVideo = (props) => {
             descripcion: descripcion
         }
         registrarVideo(datosAEnviar);
+        navigate('/'); 
     }
 
     return (
